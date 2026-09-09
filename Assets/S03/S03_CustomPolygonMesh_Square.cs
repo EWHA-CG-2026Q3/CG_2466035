@@ -9,10 +9,10 @@
           Vector3[] vertices = new Vector3[]
           {
               new Vector3(0f, 1f, 0f),
-              new Vector3(0f, 1f, 1f),
-              new Vector3(1f, 1f, 1f),
-              new Vector3(0f, 0f, 1f),
-              new Vector3(1f, 0f, 1f),
+              new Vector3(0f, 2f, 1f),
+              new Vector3(1f, 1f, 3f),
+              new Vector3(0f, 4f, 1f),
+              new Vector3(5f, 0f, 1f),
           };
 
           // TODO 2: 정점 3개씩 묶어 삼각형들을 구성하세요
