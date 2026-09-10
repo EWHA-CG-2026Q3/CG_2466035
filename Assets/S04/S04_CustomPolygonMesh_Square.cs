@@ -5,31 +5,31 @@
   {
       void Start()
       {
-          // TODO 1: 원하는 다각형의 정점 좌표를 채우세요 (최소 4개)
-          Vector3[] vertices = new Vector3[]
-          {
-              new Vector3(0f, 1f, 0f),   
-              new Vector3(1f, 0f, 0f),   
-              new Vector3(0f, -1f, 1f),   
-              new Vector3(-1f, 1f, 0f),  
-              new Vector3(0f, 0f, 1f),  
-              new Vector3(0f, 1f, 1f),  
-          };
+        // TODO 1: 원하는 다각형의 정점 좌표를 채우세요 (최소 4개)
+        Vector3[] vertices = new Vector3[]
+        {
+            new Vector3(0f, 1f, 0f),
+            new Vector3(1f, 0f, 0f),
+            new Vector3(0f, 0f, 1f),
+            new Vector3(-1f, 0f, 0f),
+            new Vector3(0f, 0f, -1f),
+            new Vector3(0f, -1f, 0f),
+        };
 
-          // TODO 2: 정점 3개씩 묶어 삼각형들을 구성하세요
-          int[] triangles = new int[]
-          {
+        // TODO 2: 정점 3개씩 묶어 삼각형들을 구성하세요
+        int[] triangles = new int[]
+        {
             0, 2, 1,
             0, 3, 2,
             0, 4, 3,
-            2, 1, 4,
-            5, 3, 2,
-            2, 1, 3,
+            0, 1, 4,
+            5, 1, 2,
+            5, 2, 3,
             5, 3, 4,
-            5, 4, 2,
-          };
+            5, 4, 1,
+        };
 
-          Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh();
           mesh.vertices = vertices;
           mesh.triangles = triangles;
           mesh.RecalculateNormals();
