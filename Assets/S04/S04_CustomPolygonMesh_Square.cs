@@ -10,8 +10,8 @@
           {
               new Vector3(0f, 1f, 0f),   
               new Vector3(1f, 0f, 0f),   
-              new Vector3(0f, 1f, 1f),   
-              new Vector3(1f, 1f, 0f),  
+              new Vector3(0f, -1f, 1f),   
+              new Vector3(-1f, 1f, 0f),  
               new Vector3(0f, 0f, 1f),  
               new Vector3(0f, 1f, 1f),  
           };
@@ -23,8 +23,8 @@
             0, 3, 2,
             0, 4, 3,
             2, 1, 4,
-            5, 1, 2,
-            5, 1, 3,
+            5, 3, 2,
+            2, 1, 3,
             5, 3, 4,
             5, 4, 2,
           };
