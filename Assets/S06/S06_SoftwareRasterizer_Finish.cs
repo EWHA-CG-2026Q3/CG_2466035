@@ -5,9 +5,9 @@ public class S06_SoftwareRasterizer_Finish : MonoBehaviour
 {
     [SerializeField] private int canvasWidth = 256;
     [SerializeField] private int canvasHeight = 256;
-    [SerializeField] private Vector2 vertexA = new Vector2(40, 200);
-    [SerializeField] private Vector2 vertexB = new Vector2(60, 40);
-    [SerializeField] private Vector2 vertexC = new Vector2(200, 40);
+    [SerializeField] private Vector2 vertexA = new Vector2(40, 120);
+    [SerializeField] private Vector2 vertexB = new Vector2(60, 128);
+    [SerializeField] private Vector2 vertexC = new Vector2(120, 40);
     [SerializeField] private Color fillColor = new Color(0.2f, 0.5f, 1f, 1f);
     [SerializeField] private Color backgroundColor = new Color(0f, 0f, 0f, 1f);
 
