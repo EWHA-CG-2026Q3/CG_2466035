@@ -97,7 +97,7 @@ public class S05_MyMeshRenderer : MonoBehaviour
                 // 여기에 SetPixel 호출까지 직접 작성하세요.
 
                 bool isColorA = ((x / size) + (y / size)) % 2 == 0;
-                Color squareColor = isColorA ? colorB : colorB;
+                Color squareColor = isColorA ? colorA : colorB;
                 canvasTexture.SetPixel(x, y, squareColor);
             }
         }
