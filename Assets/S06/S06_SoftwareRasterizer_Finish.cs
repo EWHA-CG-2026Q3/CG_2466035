@@ -1,66 +1,59 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class S06_SoftwareRasterizer_Finish : MonoBehaviour
 {
-    [SerializeField] private int canvasWidth = 256;
-    [SerializeField] private int canvasHeight = 256;
-    [SerializeField] private Vector2 vertexA = new Vector2(40, 220);
-    [SerializeField] private Vector2 vertexB = new Vector2(40, 40);
-    [SerializeField] private Vector2 vertexC = new Vector2(220, 40);
-    [SerializeField] private Color fillColor = new Color(0.2f, 0.5f, 1f, 1f);
+    [SerializeField] private Vector2 vertexA = new Vector2(128, 200);
+    [SerializeField] private Vector2 vertexB = new Vector2(60, 60);
+    [SerializeField] private Vector2 vertexC = new Vector2(200, 60);
+    [SerializeField] private Color fillColor = new Color(1f, 0.6f, 0.2f, 1f);
     [SerializeField] private Color backgroundColor = new Color(0f, 0f, 0f, 1f);
 
-    private Texture2D canvasTexture;
-    private RawImage targetImage;
+    [SerializeField] private int canvasWidth = 256;
+    [SerializeField] private int canvasHeight = 256;
 
-    void Start()
+    private Material lineMaterial;
+
+    void CreateMaterialIfNeeded()
     {
-        targetImage = GetComponent<RawImage>();
-        canvasTexture = new Texture2D(canvasWidth, canvasHeight);
-        canvasTexture.filterMode = FilterMode.Point;
+        if (lineMaterial != null) return;
 
-        DrawTriangle(vertexA, vertexB, vertexC, fillColor);
+        Shader shader = Shader.Find("Hidden/Internal-Colored");
+        lineMaterial = new Material(shader);
+        lineMaterial.hideFlags = HideFlags.HideAndDontSave;
 
-        canvasTexture.Apply();
-        targetImage.texture = canvasTexture;
+        lineMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        lineMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+        lineMaterial.SetInt("_ZWrite", 0);
     }
 
-    // 픽셀 (px, py)가 삼각형 A, B, C 내부에 있는지 barycentric coordinate로 판정
-    private bool IsInsideTriangle(Vector2 p, Vector2 a, Vector2 b, Vector2 c)
+    void OnRenderObject()
     {
-        float denom = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+        CreateMaterialIfNeeded();
+        lineMaterial.SetPass(0);
 
-        float w1 = (p.x * (b.y - c.y) + b.x * (c.y - p.y) + c.x * (p.y - b.y)) / denom;
-        float w2 = (a.x * (p.y - c.y) + p.x * (c.y - a.y) + c.x * (a.y - p.y)) / denom;
-        float w3 = 1f - w1 - w2;
+        GL.PushMatrix();
 
-        return w1 >= 0f && w2 >= 0f && w3 >= 0f;
-    }
+        
+        GL.LoadPixelMatrix(0, canvasWidth, 0, canvasHeight);
 
-    // 배경 채우기 (참고 예시 — 이미 완성됨)
-    private void FillBackground(Color color)
-    {
-        for (int x = 0; x < canvasWidth; x++)
-            for (int y = 0; y < canvasHeight; y++)
-                canvasTexture.SetPixel(x, y, color);
-    }
+        
+        GL.Begin(GL.QUADS);
+        GL.Color(backgroundColor);
+        GL.Vertex3(0, 0, 0);
+        GL.Vertex3(canvasWidth, 0, 0);
+        GL.Vertex3(canvasWidth, canvasHeight, 0);
+        GL.Vertex3(0, canvasHeight, 0);
+        GL.End();
 
-    // 캔버스의 모든 픽셀을 순회하며 삼각형 내부 여부를 판정해 색칠
-    private void DrawTriangle(Vector2 a, Vector2 b, Vector2 c, Color color)
-    {
-        FillBackground(backgroundColor);
+        
+        GL.Begin(GL.TRIANGLES);
+        GL.Color(fillColor);
+        GL.Vertex3(vertexA.x, vertexA.y, 0);
+        GL.Vertex3(vertexB.x, vertexB.y, 0);
+        GL.Vertex3(vertexC.x, vertexC.y, 0);
+        GL.End();
 
-        for (int x = 0; x < canvasWidth; x++)
-        {
-            for (int y = 0; y < canvasHeight; y++)
-            {
-                Vector2 pixelCenter = new Vector2(x + 0.5f, y + 0.5f);
-                if (IsInsideTriangle(pixelCenter, a, b, c))
-                {
-                    canvasTexture.SetPixel(x, y, color);
-                }
-            }
-        }
+        GL.PopMatrix();
     }
 }
